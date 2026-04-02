@@ -1,0 +1,242 @@
+{
+  "annotations": {
+    "list": []
+  },
+  "editable": true,
+  "fiscalYearStartMonth": 0,
+  "graphTooltip": 1,
+  "id": null,
+  "links": [],
+  "panels": [
+    {
+      "datasource": {
+        "type": "frser-sqlite-datasource",
+        "uid": "myapp_sqlite"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": { "mode": "palette-classic" },
+          "custom": {
+            "axisBorderShow": false,
+            "axisLabel": "",
+            "fillOpacity": 10,
+            "lineWidth": 2,
+            "pointSize": 5,
+            "showPoints": "auto"
+          },
+          "unit": "celsius"
+        },
+        "overrides": []
+      },
+      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 0 },
+      "id": 1,
+      "options": {
+        "legend": { "calcs": ["mean", "max", "min"], "displayMode": "table", "placement": "bottom" },
+        "tooltip": { "mode": "multi" }
+      },
+      "title": "Temperature",
+      "type": "timeseries",
+      "targets": [
+        {
+          "queryText": "SELECT timestamp as time, value FROM sensor_data WHERE sensor_name LIKE '%temp%' ORDER BY timestamp DESC LIMIT 500",
+          "queryType": "table",
+          "rawQueryText": "SELECT timestamp as time, value FROM sensor_data WHERE sensor_name LIKE '%temp%' ORDER BY timestamp DESC LIMIT 500",
+          "refId": "A",
+          "timeColumns": ["time"]
+        }
+      ]
+    },
+    {
+      "datasource": {
+        "type": "frser-sqlite-datasource",
+        "uid": "myapp_sqlite"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": { "mode": "palette-classic" },
+          "custom": {
+            "axisBorderShow": false,
+            "axisLabel": "",
+            "fillOpacity": 10,
+            "lineWidth": 2,
+            "pointSize": 5,
+            "showPoints": "auto"
+          },
+          "unit": "humidity"
+        },
+        "overrides": []
+      },
+      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 0 },
+      "id": 2,
+      "options": {
+        "legend": { "calcs": ["mean", "max", "min"], "displayMode": "table", "placement": "bottom" },
+        "tooltip": { "mode": "multi" }
+      },
+      "title": "Humidity",
+      "type": "timeseries",
+      "targets": [
+        {
+          "queryText": "SELECT timestamp as time, value FROM sensor_data WHERE sensor_name LIKE '%humid%' ORDER BY timestamp DESC LIMIT 500",
+          "queryType": "table",
+          "rawQueryText": "SELECT timestamp as time, value FROM sensor_data WHERE sensor_name LIKE '%humid%' ORDER BY timestamp DESC LIMIT 500",
+          "refId": "A",
+          "timeColumns": ["time"]
+        }
+      ]
+    },
+    {
+      "datasource": {
+        "type": "frser-sqlite-datasource",
+        "uid": "myapp_sqlite"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": { "mode": "thresholds" },
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              { "color": "green", "value": null },
+              { "color": "yellow", "value": 25 },
+              { "color": "red", "value": 35 }
+            ]
+          },
+          "unit": "celsius"
+        },
+        "overrides": []
+      },
+      "gridPos": { "h": 6, "w": 6, "x": 0, "y": 8 },
+      "id": 3,
+      "options": {
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": ["lastNotNull"],
+          "fields": "",
+          "values": false
+        },
+        "showThresholdLabels": false,
+        "showThresholdMarkers": true
+      },
+      "title": "Current Temperature",
+      "type": "gauge",
+      "targets": [
+        {
+          "queryText": "SELECT value FROM sensor_data WHERE sensor_name LIKE '%temp%' ORDER BY timestamp DESC LIMIT 1",
+          "queryType": "table",
+          "rawQueryText": "SELECT value FROM sensor_data WHERE sensor_name LIKE '%temp%' ORDER BY timestamp DESC LIMIT 1",
+          "refId": "A"
+        }
+      ]
+    },
+    {
+      "datasource": {
+        "type": "frser-sqlite-datasource",
+        "uid": "myapp_sqlite"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": { "mode": "thresholds" },
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              { "color": "green", "value": null },
+              { "color": "yellow", "value": 60 },
+              { "color": "red", "value": 80 }
+            ]
+          },
+          "unit": "humidity"
+        },
+        "overrides": []
+      },
+      "gridPos": { "h": 6, "w": 6, "x": 6, "y": 8 },
+      "id": 4,
+      "options": {
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": ["lastNotNull"],
+          "fields": "",
+          "values": false
+        },
+        "showThresholdLabels": false,
+        "showThresholdMarkers": true
+      },
+      "title": "Current Humidity",
+      "type": "gauge",
+      "targets": [
+        {
+          "queryText": "SELECT value FROM sensor_data WHERE sensor_name LIKE '%humid%' ORDER BY timestamp DESC LIMIT 1",
+          "queryType": "table",
+          "rawQueryText": "SELECT value FROM sensor_data WHERE sensor_name LIKE '%humid%' ORDER BY timestamp DESC LIMIT 1",
+          "refId": "A"
+        }
+      ]
+    },
+    {
+      "datasource": {
+        "type": "frser-sqlite-datasource",
+        "uid": "myapp_sqlite"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": { "mode": "palette-classic" },
+          "custom": { "lineWidth": 1, "fillOpacity": 0 }
+        },
+        "overrides": []
+      },
+      "gridPos": { "h": 6, "w": 12, "x": 12, "y": 8 },
+      "id": 5,
+      "options": {
+        "legend": { "calcs": ["count"], "displayMode": "table", "placement": "bottom" },
+        "tooltip": { "mode": "multi" }
+      },
+      "title": "All Sensors (Raw)",
+      "type": "timeseries",
+      "targets": [
+        {
+          "queryText": "SELECT timestamp as time, sensor_name, value FROM sensor_data ORDER BY timestamp DESC LIMIT 1000",
+          "queryType": "table",
+          "rawQueryText": "SELECT timestamp as time, sensor_name, value FROM sensor_data ORDER BY timestamp DESC LIMIT 1000",
+          "refId": "A",
+          "timeColumns": ["time"]
+        }
+      ]
+    },
+    {
+      "datasource": {
+        "type": "frser-sqlite-datasource",
+        "uid": "myapp_sqlite"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "custom": { "align": "auto" }
+        },
+        "overrides": []
+      },
+      "gridPos": { "h": 6, "w": 24, "x": 0, "y": 14 },
+      "id": 6,
+      "options": {
+        "showHeader": true,
+        "sortBy": [{ "desc": true, "displayName": "time" }]
+      },
+      "title": "Recent Readings (Table)",
+      "type": "table",
+      "targets": [
+        {
+          "queryText": "SELECT timestamp as time, sensor_name, value, unit FROM sensor_data ORDER BY timestamp DESC LIMIT 50",
+          "queryType": "table",
+          "rawQueryText": "SELECT timestamp as time, sensor_name, value, unit FROM sensor_data ORDER BY timestamp DESC LIMIT 50",
+          "refId": "A",
+          "timeColumns": ["time"]
+        }
+      ]
+    }
+  ],
+  "schemaVersion": 39,
+  "tags": ["iot", "sensors", "myapp"],
+  "templating": { "list": [] },
+  "time": { "from": "now-6h", "to": "now" },
+  "timepicker": {},
+  "timezone": "browser",
+  "title": "myapp IoT Dashboard",
+  "uid": "myapp-iot-dashboard",
+  "version": 1
+}

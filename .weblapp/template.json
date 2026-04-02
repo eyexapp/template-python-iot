@@ -1,0 +1,33 @@
+{
+  "name": "python-iot",
+  "displayName": "Python IoT",
+  "description": "Python IoT project template for embedded systems, sensor data, MQTT, and hardware integration",
+  "category": "backend",
+  "language": "python",
+  "framework": "vanilla-python",
+  "stack": ["python", "mqtt", "gpio", "asyncio"],
+  "features": ["iot", "sensor-data", "mqtt", "hardware-integration", "async"],
+  "commands": {
+    "dev": "python main.py",
+    "test": "pytest",
+    "lint": "ruff check ."
+  },
+  "packageManager": "pip",
+  "ci": {
+    "workflowTemplate": "python-iot",
+    "runner": "ubuntu-latest",
+    "runtime": {
+      "name": "python",
+      "version": "3.12",
+      "setup": "actions/setup-python@v5",
+      "cache": "pip"
+    },
+    "services": {},
+    "steps": {
+      "install": "pip install -r requirements.txt",
+      "build": null,
+      "test": "pytest",
+      "lint": "ruff check ."
+    }
+  }
+}

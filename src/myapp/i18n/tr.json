@@ -1,0 +1,14 @@
+{
+  "status": {
+    "ready": "Uygulama hazır.",
+    "shutting_down": "Kapatılıyor..."
+  },
+  "sensor": {
+    "reading": "{name} sensöründen okunuyor",
+    "error": "{name} sensörü okunurken hata"
+  },
+  "mqtt": {
+    "connected": "MQTT broker'a bağlandı",
+    "disconnected": "MQTT broker bağlantısı kesildi"
+  }
+}

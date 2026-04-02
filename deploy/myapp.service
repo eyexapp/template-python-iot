@@ -1,0 +1,42 @@
+# systemd service unit for myapp IoT application
+# Install:
+#   sudo cp deploy/myapp.service /etc/systemd/system/
+#   sudo systemctl daemon-reload
+#   sudo systemctl enable --now myapp
+#
+# Logs:
+#   journalctl -u myapp -f
+
+[Unit]
+Description=myapp IoT Sensor Collector
+After=network-online.target mosquitto.service
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=pi
+Group=pi
+WorkingDirectory=/home/pi/myapp
+ExecStart=/home/pi/myapp/.venv/bin/python -m myapp
+Restart=always
+RestartSec=5
+WatchdogSec=60
+
+# Environment
+EnvironmentFile=-/home/pi/myapp/.env
+
+# Hardening
+NoNewPrivileges=true
+ProtectSystem=strict
+ProtectHome=read-only
+ReadWritePaths=/home/pi/myapp/data
+PrivateTmp=true
+ProtectKernelTunables=true
+ProtectControlGroups=true
+
+# Resource limits
+MemoryMax=256M
+CPUQuota=50%
+
+[Install]
+WantedBy=multi-user.target

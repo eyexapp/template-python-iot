@@ -1,0 +1,55 @@
+# docker-compose.yml — myapp IoT stack
+# Includes: app + Mosquitto MQTT broker
+#
+# Usage:
+#   docker compose up -d
+#   docker compose logs -f app
+
+services:
+  # ── Mosquitto MQTT Broker ───────────────────────────────────────
+  mosquitto:
+    image: eclipse-mosquitto:2
+    container_name: myapp-mosquitto
+    restart: unless-stopped
+    ports:
+      - "1883:1883"
+      - "9001:9001"
+    volumes:
+      - ./deploy/mosquitto/mosquitto.conf:/mosquitto/config/mosquitto.conf:ro
+      - mosquitto_data:/mosquitto/data
+      - mosquitto_log:/mosquitto/log
+    healthcheck:
+      test: ["CMD-SHELL", "mosquitto_sub -t '$$SYS/#' -C 1 -W 3 || exit 1"]
+      interval: 15s
+      timeout: 5s
+      retries: 3
+
+  # ── myapp IoT Application ───────────────────────────────────────
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: myapp-iot
+    restart: unless-stopped
+    depends_on:
+      mosquitto:
+        condition: service_healthy
+    env_file:
+      - .env
+    environment:
+      - MQTT_BROKER=mosquitto
+      - MQTT_PORT=1883
+      - DB_PATH=/app/data/sensor_data.db
+      - MOCK_MODE=true
+    volumes:
+      - app_data:/app/data
+    healthcheck:
+      test: ["CMD", "python", "-c", "import myapp; print('ok')"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+
+volumes:
+  app_data:
+  mosquitto_data:
+  mosquitto_log:

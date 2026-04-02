@@ -1,0 +1,14 @@
+{
+  "status": {
+    "ready": "Application is ready.",
+    "shutting_down": "Shutting down..."
+  },
+  "sensor": {
+    "reading": "Reading from {name}",
+    "error": "Error reading sensor {name}"
+  },
+  "mqtt": {
+    "connected": "Connected to MQTT broker",
+    "disconnected": "Disconnected from MQTT broker"
+  }
+}
